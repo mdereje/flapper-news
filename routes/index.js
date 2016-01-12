@@ -42,7 +42,7 @@ router.param('post', function (req, res, next, id) {
     });
 });
 //@mdereje route for returning a single post
-router.get('/posts/:post', function (req, res) {
+router.get('/posts/:post', function (req, res, next) {
     req.post.populate('comments', function(err, post) {
         if (err) { return next(err); }
         res.json(post);
@@ -53,6 +53,14 @@ router.get('/posts/:post', function (req, res) {
 router.put('/posts/:post/upvote', auth, function (req, res, next) {
     req.post.upvote(function (err, post) {
         if (err) { return next(err); }
+        res.json(post);
+    });
+});
+
+//@mdereje route for downvoting a post
+router.put('/posts/:post/downvote', auth, function(req, res, next){
+    req.post.downvote(function (err, post) {
+        if(err) { return next(err); }
         res.json(post);
     });
 });
@@ -81,6 +89,15 @@ router.put('/posts/:post/comments/:comment/upvote', auth, function (req, res, ne
         res.json(comment);
     });
 });
+
+//@mdereje route comment downvotes!
+router.put('/posts/:post/comments/:comment/downvote', auth, function (req, res, next) {
+    req.comment.downvote(function (err, comment){
+        if (err) { return next(err); }
+        res.json(comment);
+    });
+});
+
 
 //@mdereje route for pre loading comments
 router.param('comment', function(req, res, next, id) {
