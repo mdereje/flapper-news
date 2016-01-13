@@ -1,10 +1,14 @@
 var mongoose = require('mongoose');
-
+//Comments probably 1 to many relationship.
 var PostSchema = new mongoose.Schema({
     title: String,
     link: String,
     upvotes: {type: Number, default: 0},
-    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}]    
+    comments: [{ 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Comment'
+        }],  
+    nComments: { type: Number }
 });
 
 PostSchema.methods.upvote = function(cb) {

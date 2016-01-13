@@ -34,7 +34,6 @@ function($scope, posts, post, auth){
     $scope.isLoggedIn = auth.isLoggedIn;
     
     $scope.addComment = function(){
-        if($scope.author === ''){$scope.author = 'Anonymous';}
         if($scope.body === ''){ return;}
         
         posts.addComment(post._id, {
@@ -54,6 +53,7 @@ function($scope, posts, post, auth){
     $scope.decrementUpvotes = function(comment){
      posts.downvoteComment(post, comment);
     };
+    
 }]);
 
 app.config([
@@ -130,7 +130,7 @@ app.factory('posts', ['$http', 'auth', function($http, auth){
             post.upvotes += 1;
         });
     };
-    
+  
     //@mdereje downvoting posts
     o.downvote = function(post){
        return $http.put('/posts/' + post._id + '/downvote', null, {headers: {Authorization: 'Bearer ' + auth.getToken()
@@ -237,9 +237,9 @@ function($scope, posts, auth){
         link: $scope.link,
   	});
   	$scope.title = '';
-  	$scope.link = '';
+  	$scope.link = '';    
   };
-
+      
   $scope.incrementUpvotes = function(post){
   	posts.upvote(post);
   };
